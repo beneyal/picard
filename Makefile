@@ -174,10 +174,13 @@ serve: pull-eval-image
 		-it \
 		--rm \
 		--user 13011:13011 \
+		--gpus all \
 		-p 8000:8000 \
 		--mount type=bind,source=$(BASE_DIR)/database,target=/database \
 		--mount type=bind,source=$(BASE_DIR)/transformers_cache,target=/transformers_cache \
 		--mount type=bind,source=$(BASE_DIR)/configs,target=/app/configs \
+		--mount type=bind,source=$(BASE_DIR)/seq2seq,target=/app/seq2seq \
+		--mount type=bind,source=$(BASE_DIR)/flan_model,target=/flan_model \
 		tscholak/$(EVAL_IMAGE_NAME):$(GIT_HEAD_REF) \
 		/bin/bash -c "python seq2seq/serve_seq2seq.py configs/serve.json"
 
